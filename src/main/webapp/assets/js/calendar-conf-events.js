@@ -27,7 +27,7 @@ var Script = function () {
 
     /* initialize the calendar
      -----------------------------------------------------------------*/
-
+     
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -63,7 +63,7 @@ var Script = function () {
                 $(this).remove();
             }
 
-        },
+        }/*,
         events: [
             {
                 title: 'All Day Event',
@@ -109,7 +109,7 @@ var Script = function () {
                 end: new Date(y, m, 29),
                 url: 'http://google.com/'
             }
-        ]
+        ]*/
     });
 
 

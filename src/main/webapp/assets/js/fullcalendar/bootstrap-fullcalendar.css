@@ -138,10 +138,6 @@ html .fc,
   color: #646464;
 }
   
-.fc-state-highlight { /* <td> today cell */ /* TODO: add .fc-today to <th> */
-  background: #fff;
-  }
-  
 .fc-cell-overlay { /* semi-transparent rectangle while dragging */
   background: #9cf;
   opacity: .2;
@@ -158,7 +154,7 @@ html .fc,
   overflow: hidden;
   display: inline-block;
   cursor: pointer;
-  top: -52px;
+  top: -7px;
 }
 
 .fc-header {
@@ -252,7 +248,7 @@ html .fc,
     border-color: #DDDDDD #DDDDDD #FFFFFF;
     color: #646464;
 }
-  }
+  
   
 .fc-state-disabled,
 .fc-state-disabled .fc-button-inner {
