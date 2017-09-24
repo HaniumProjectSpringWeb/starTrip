@@ -14,22 +14,9 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/js/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
-        
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
 	<link href="assets/css/style-responsive.css" rel="stylesheet">
-	
-	<!-- Custom Datepicker -->
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
-	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>  
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
 	
 	<style>
 		#sheet_top_layout{
@@ -52,23 +39,237 @@
 		#map_canvas_layout{
 			display: flex;
 			height: 35em;
+			padding: 0%; 
 		}
 		#map_canvas{
 			flex: 6;
 			padding: 0%;
-			margin: 2em;
+			margin: 1%;
 		}
 		#map_canvas_location_layout{
 			padding: 0%;
-			margin: 2em;
+			margin: 0.5em;
 			flex: 4;
 		}
+
 		#map_canvas_location_list_layout{
-			padding: 0%;
+			padding: 4%;
 			height: 85%;
-			margin: auto;
-			outline: black solid;
+			margin: 0 auto;
+			border: 5px double #43b1a9;
+			overflow: auto;
 		}
+
+		#map_canvas_location_list_layout::-webkit-scrollbar-track
+		{
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+			border-radius: 10px;
+			background-color: #F5F5F5;
+		}
+		
+		#map_canvas_location_list_layout::-webkit-scrollbar
+		{
+			width: 5px;
+			background-color: #F5F5F5;
+		}
+		
+		#map_canvas_location_list_layout::-webkit-scrollbar-thumb
+		{
+			border-radius: 10px;
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+			background-color: #43b1a9;
+		}
+		
+		
+
+		.placeIcon {
+			width: 16px;
+			height: 16px;
+			margin: 2px;
+		}
+		#locationField {
+			margin: 1%;
+			padding: 0%;
+		}
+		#autocomplete{
+			width: 50%;
+		}
+
+		#sheet_context_basicinfo_title_layout{
+			margin: 3% auto;
+			padding: 2%;
+		}
+
+		#sheet_context_basicinfo_title_layout > label{
+			margin: 0%;
+			padding: 0%; 
+			float: left;
+			margin-right: 2.3em;
+		}
+
+		#sheet_context_basicinfo_title_layout > input{
+			margin: 0%;
+			float: left;
+			width: 50%
+		}
+
+		#sheet_context_basicinfo_thema_layout{
+			margin: 1% auto;
+			padding: 1%;
+		}
+
+		#sheet_context_basicinfo_thema_layout > .btn-group{
+			float: left;
+			margin:0 auto;
+			margin-right: 10em;
+		}
+
+		#sheet_context_basicinfo_thema_layout > select{
+			float: left;
+			margin:0 auto;
+			width: 30%
+		}
+		#map_canvas_for_path_layout{
+			margin: 1%;
+			padding: 0%;
+		}
+
+
+		.location_node{
+			display: flex;
+		}
+
+		.node_first_layout{
+			flex: 9;
+			margin: 0%;
+			padding: 4%;
+			background-color: #FFBCB9;
+			border-radius: 20px;
+		}
+
+		.node_first_layout > :first-child{
+			color: #000000;
+			font-weight: bold;
+		}
+
+		.node_first_layout > div:nth-child(2) > label{
+			color: #000000;
+			margin-right: 5em;
+		}
+		.node_first_layout > div:nth-child(2) > input{
+			width: 65%;
+			margin-bottom:5px;
+			line-height:18px;
+			padding:2px 5px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			border:1px solid #CCC;
+		}
+		.node_first_layout > div:nth-child(3) > label{
+			color: #000000;
+			margin-right: 5em;
+		}
+		.node_first_layout > div:nth-child(3) > input{
+			width: 65%;
+			margin-bottom:5px;
+			line-height:18px;
+			padding:2px 5px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			border:1px solid #CCC;
+		}
+
+		.node_first_layout > div:nth-child(4) > textarea{
+			width: 92.5%;
+			margin-bottom:5px;
+			line-height:18px;
+			padding:2px 5px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			border:1px solid #CCC;
+			resize: none;
+			height: 5em;
+		}
+
+		.node_first_layout > div:nth-child(5){
+			text-align: center;
+		}
+
+		.node_first_layout > div:nth-child(5) > button{
+			margin: 0 auto;
+		}
+
+		.node_second_layout{
+			flex: 1;
+			margin: 0%;
+			padding: 0%;
+			padding-top: 5%;
+		}
+		
+
+		.input_normal_style {
+			margin-bottom:5px;
+			line-height:18px;
+			padding:2px 5px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			border:1px solid #CCC;
+		}
+
+		.node_side_btn{
+			width:2em;
+			height:2em;
+			background:#B4C3FF;
+			color:#000000;
+			border:none;
+			border-right:0px;
+			border-top:0px;
+			border-left:0px;
+			border-bottom:0px;
+		}
+		.node_side_btn_x{
+			width:2em;
+			height:2em;
+			background:#B4C3FF;
+			color:#ff0000;
+			border:none;
+			border-right:0px; 
+			border-top:0px;
+			border-left:0px;
+			border-bottom:0px;
+		}
+
+		.showup_distance{
+			width: 100%;
+			height: 3em;
+			text-align: center;
+			margin-top: 1em;
+			margin-bottom: 1em; 
+		}
+
+		.showup_distance > div:first-child{
+			margin: 0 auto;
+		}
+
+		.showup_distance > div:first-child > span{
+		}
+
+		.showup_distance > div:first-child > label{
+			color: #000000;
+			padding-left: 1.5em;
+		}
+
+
+		.arrow {display:inline-block; background:#7d1919; position:relative;}
+		.arrow:after {content:''; position:absolute; width:0; height:0; border-style:solid;}
+		.test_1{width:10px; height:20px;}
+		.test_1:after{border-width:20px 15px;}
+		.test_1:after {border-color:#7d1919 transparent transparent transparent; top:20px; left:-10px;}
+
 	</style>
   </head>
 
@@ -191,62 +392,148 @@ MAIN CONTENT
 		<div id="sheet_context_layout">
 			<div id="sheet_context_basicinfo_layout" class="showback">
 				<h5>* 간단 정보</h5>
-				<div id="sheet_context_basicinfo_title_layout">
-					<h6>여행 주제</h6>
-					<input id="sheet_context_basicinfo_title_input" type="text">
-				</div>
-				<div id="sheet_context_basicinfo_date_layout">
-					<h6>여행 시작일</h6>
-					<input id="sheet_context_basicinfo_date_picker" type="text">
-				</div>
-				<!-- BUTTONS GROUP -->
-				<div>
-					<h5>여행 테마</h5>
+				<div id="sheet_context_basicinfo_thema_layout">
 					<div class="btn-group">
 						<button type="button" class="btn btn-default">국내</button>
 						<button type="button" class="btn btn-default">국외</button>
-					</div>      				
-					<div id="sheet_context_basicinfo_thema_tag_input">
-						<input id="sheet_context_basicinfo_title_input" type="text">
-					</div>
-				</div><!-- /showback -->
+					</div>      	
+					<select class="form-control">
+						<option>식도락 여행</option>
+						<option>관광지 탐방</option>
+						<option>쇼핑</option>
+						<option>배낭 여행</option>	
+						<option>감성 여행</option>
+						<option>무전 여행</option>
+						<option>기타 테마</option>
+					</select>
+				</div>
+
+
+				<div id="sheet_context_basicinfo_title_layout">
+					<label class="col-sm-2 col-sm-2 control-label" for="title">여행 주제</label>
+					<input class="input_normal_style" type="text">
+				</div>
 			</div>
 		</div>
 
 		<div id="sheet_context_location_search"  class="showback">
 			<h5>* 장소 찾기</h5>
 			<div id="locationField">
-				<input id="autocomplete" class="form-control" type="text">
+				<input id="autocomplete" class="input_normal_style" type="text" placeholder="여행 장소를 검색해주세요.">
 			</div>
 
 			<div id="map_canvas_layout">
-				<div id="map_canvas" style="height:auto;width:100%;"></div>
-				<div id="map_canvas_location_layout">
-					<h4><i class="fa fa-angle-right"></i> 선택 장소</h4>
-					<div id="map_canvas_location_list_layout"></div>
+			<div id="map_canvas" style="height:auto;width:100%;"></div>
+			<div id="map_canvas_location_layout">
+				<h4><i class="fa fa-angle-right"></i> 선택 장소</h4>
+				<div id="map_canvas_location_list_layout">
+
+					<!-- Node !! Part -->
+					<div class="location_node">
+						<div class="node_first_layout">
+							<h5>Location</h6>
+							<div>
+								<label for="date" class="blind">도착</label>
+								<input type="text" class="form_date" placeholder="0000-00-00 00:00">
+							</div>
+							<div>
+								<label for="date" class="blind">출발</label>
+								<input type="text" class="form_date" placeholder="0000-00-00 00:00">
+							</div>
+							<div class="textarea">
+								<textarea name="memo" id="form_memo" placeholder="중요 내용을 대신 기억해드려요."></textarea>
+							</div>
+							<div>
+								<button class="btn btn-default">내용 저장</button>
+							</div>
+						</div>
+						<div class="node_second_layout">
+							<div>
+								<button class="node_side_btn">↑</button>
+							</div>
+							<div>
+								<button class="node_side_btn_x">X</button>
+							</div>
+							<div>
+								<button class="node_side_btn">↓</button>
+							</div>
+						</div>
+					</div>
+					<!-- -->
+
+
+					<!-- 거리 노드 -->
+					<div class="showup_distance">
+						<div>
+							<span class="arrow test_1"></span>
+							<label>거리 : 000 km</label>
+						</div>
+					</div>
+					<!--  -->
+
+					<!-- Node !! Part -->
+					<div class="location_node">
+							<div class="node_first_layout">
+								<h5>Location</h6>
+								<div>
+									<label for="date" class="blind">도착</label>
+									<input type="text" class="form_date" placeholder="0000-00-00 00:00">
+								</div>
+								<div>
+									<label for="date" class="blind">출발</label>
+									<input type="text" class="form_date" placeholder="0000-00-00 00:00">
+								</div>
+								<div class="textarea">
+									<textarea name="memo" id="form_memo" placeholder="중요 내용을 대신 기억해드려요."></textarea>
+								</div>
+								<div>
+									<button class="btn btn-default">내용 저장</button>
+								</div>
+							</div>
+							<div class="node_second_layout">
+								<div>
+									<button class="node_side_btn">↑</button>
+								</div>
+								<div>
+									<button class="node_side_btn_x">X</button>
+								</div>
+								<div>
+									<button class="node_side_btn">↓</button>
+								</div>
+							</div>
+						</div>
+						<!-- -->
+
 				</div>
 			</div>
+		</div>
+	</div>
+
+	
+	<div id="showup_path_layout" class="showback">
+		<div>
+			<h5>* 경로 보기</h5>
+		</div>
+
+		<div id="map_canvas_for_path_layout">
+			<div id="map_canvas_for_path" style="height:350px;width:100%;"></div>
+		</div>
+
+		<div id="showup_path_node">
 
 		</div>
 		
+	</div>
 		
 		
-    <div class="row mt">
 		
-
-        <!-- <aside class="col-lg-9 mt">
-            <section class="panel">
-				<h5>* 달력 다이어리</h5>
-                <div class="panel-body">
-                    <div id="calendar" class="has-toolbar"></div>
-       			</div>
-            </section>
-        </aside> -->
+<!--     <div class="row mt">
+		
 
 		<aside class="col-lg-3 mt">
 						<h4><i class="fa fa-angle-right"></i> 선택 장소</h4>
 							<div id="external-events">
-									<!-- <div class="external-event label label-theme">My Event 1</div>
+									<div class="external-event label label-theme">My Event 1</div>
 									<div class="external-event label label-success">My Event 2</div>
 									<div class="external-event label label-info">My Event 3</div>
 									<div class="external-event label label-warning">My Event 4</div>
@@ -254,14 +541,14 @@ MAIN CONTENT
 									<div class="external-event label label-default">My Event 6</div>
 									<div class="external-event label label-theme">My Event 7</div>
 									<div class="external-event label label-info">My Event 8</div>
-									<div class="external-event label label-success">My Event 9</div> -->
+									<div class="external-event label label-success">My Event 9</div>
 							</div>
 							<p class="drop-after">
 								<input type="checkbox" id="drop-remove">
 									체크 후 드래그 시 장소가 삭제됩니다.
 							</p>
 		</aside>
-    </div>
+    </div> -->
 
 	
 
@@ -299,13 +586,7 @@ MAIN CONTENT
 
       <!--main content end-->
       <!--footer start-->
-      <footer class="site-footer">
-          <div class="text-center">
-              Itrip
-              <a href="editScheduler.html" class="go-top">
-                  <i class="fa fa-angle-up"></i>
-              </a>
-          </div>
+      <footer>
       </footer>
       <!--footer end-->
   </section>
@@ -325,7 +606,6 @@ MAIN CONTENT
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="assets/js/jquery.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/fullcalendar/fullcalendar.min.js"></script>    
     <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
     <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
     <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
@@ -335,9 +615,6 @@ MAIN CONTENT
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
 
-    <!--script for this page-->
-	<script src="assets/js/calendar-conf-events.js"></script>    
-
 	<!-- 맵연동하는 코드 -->
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
 
@@ -346,27 +623,27 @@ MAIN CONTENT
 	<script type="text/javascript">
 
 		var map, places, iw;
+		var mapforpath, placesforpath;
 		var markers = [];	//마커 정보 모음
 		var autocomplete;
 		var tempPlace;
 
-		$(function() {
-			$( "#sheet_context_basicinfo_date_picker" ).datepicker({
-				dateFormat: 'yy-mm-dd',
-				prevText: '이전 달',
-				nextText: '다음 달',
-				monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-				monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-				dayNames: ['일','월','화','수','목','금','토'],
-				dayNamesShort: ['일','월','화','수','목','금','토'],
-				dayNamesMin: ['일','월','화','수','목','금','토'],
-				showMonthAfterYear: true,
-				changeMonth: true,
-				changeYear: true,
-				yearSuffix: '년'
-			});
-		});
-		
+		var title;
+		var thema01;
+		var thema02;
+		var nodeCount=0;
+		var nodeInfoArray = [];
+		var nodeInfo = {
+			location: "",
+			tag: 0,
+			lat: 0,
+			lng: 0,
+			startDay: "",
+			startTime: "",
+			endDay: "",
+			endTime: "",
+			context: ""
+		};
 
 		function initialize() {
 			var myLatlng = new google.maps.LatLng(37.566535, 126.97796919999996);	//초기 맵의 포커스를 위해 초기 설정
@@ -379,8 +656,13 @@ MAIN CONTENT
 			//초기 맵 설정
 
 			map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+			mapforpath = new google.maps.Map(document.getElementById('map_canvas_for_path'), myOptions);
+
 			places = new google.maps.places.PlacesService(map);
+			placesforpath = new google.maps.places.PlacesService(mapforpath);
+
 			google.maps.event.addListener(map, 'tilesloaded', tilesLoaded);    // 지도에 해당 마커를 표시하는 리스터 정의 부분
+			google.maps.event.addListener(mapforpath, 'tilesloaded', tilesLoaded);
 			
 			autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'));	//이 부분이 텍스트에딧부분 설정 코드
 			google.maps.event.addListener(autocomplete, 'place_changed', function () {
@@ -574,36 +856,5 @@ MAIN CONTENT
 		google.maps.event.addDomListener(window, 'load', initialize);
 
 	</script>
-
-
-
-    <style type="text/css">
-		#map_canvas {
-			float: left;
-			width: 820px;
-			height: 406px;
-		}
-		.placeIcon {
-			width: 16px;
-			height: 16px;
-			margin: 2px;
-		}
-		#results {
-			border-collapse: collapse;
-			width: 184px;
-		}
-		#locationField {
-			margin-left: 1px;
-		}
-		#autocomplete {
-			width: 516px;
-			border: 1px solid #ccc;
-		}
-	</style>
-
-    <style type="text/css">   
-        #map_canvas { } 
-    </style> 
-
   </body>
 </html>
