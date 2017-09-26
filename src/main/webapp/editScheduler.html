@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +19,34 @@
 	<link href="assets/css/style-responsive.css" rel="stylesheet">
 	
 	<style>
+		td{
+			height: 4em;
+		}
+
+		td > input{
+			width: 60%;
+		}
+
+		td > label{
+			padding: 2%;
+		}
+
+		td > .form-control{
+			width: 40%;
+		}
+
+		tr > td:first-child{
+			width: 20%;
+			margin: 0;
+			padding: 0;
+		}
+
+		table{
+			margin: 0;
+			padding: 0;
+			width: 100%;
+		}
+
 		#sheet_top_layout{
 			display: flex;
 		}
@@ -29,9 +57,14 @@
 			margin: 1em;
 		}
 		#complete_btn{
-			margin: auto;
 			flex: 2;
-			position: right;
+			margin: auto;
+			text-align: center
+		}
+
+		#complete_btn > div:first-child{
+			float: right;
+			clear: both;
 		}
 		#main-content{
 			background: #F0FFF0
@@ -54,9 +87,10 @@
 
 		#map_canvas_location_list_layout{
 			padding: 4%;
-			height: 85%;
+			height: 90%;
 			margin: 0 auto;
 			border: 5px double #43b1a9;
+			border-radius: 0px 0px 0px 50px;
 			overflow: auto;
 		}
 
@@ -112,23 +146,6 @@
 			float: left;
 			width: 50%
 		}
-
-		#sheet_context_basicinfo_thema_layout > table{
-			margin: 0;
-			padding: 0;
-			width: 100%;
-		}
-
-		#sheet_context_basicinfo_thema_layout > table > tr > td:first-child{
-			margin: 0;
-			padding: 0;
-			width: 10em;
-		}
-
-
-
-
-
 
 		#map_canvas_for_path_layout{
 			margin: 1%;
@@ -221,7 +238,19 @@
 			border:1px solid #CCC;
 		}
 
-		.node_side_btn{
+		.node_side_btn_up{
+			width:2em;
+			height:2em;
+			background:#B4C3FF;
+			color:#000000;
+			border:none;
+			border-right:0px;
+			border-top:0px;
+			border-left:0px;
+			border-bottom:0px;
+		}
+
+		.node_side_btn_down{
 			width:2em;
 			height:2em;
 			background:#B4C3FF;
@@ -400,8 +429,10 @@ MAIN CONTENT
 				<h3 ><i class="fa fa-angle-right"></i> 계획 작성하기</h3>		
 			</div>
 			<div id="complete_btn">
-				<button type="button" class="btn btn-success" value="완료하기" onclick="complete_event();"> 완료하기 </button>
-				<button type="button" class="btn btn-theme" value="취소하기" onclick="cancle_event();"> 취소하기 </button>
+				<div>
+					<button type="button" class="btn btn-success" value="완료하기" onclick="complete_event();"> 완료하기 </button>
+					<button type="button" class="btn btn-theme" value="취소하기" onclick="cancle_event();"> 취소하기 </button>
+				</div>
 			</div>
 		</div>
 
@@ -412,13 +443,21 @@ MAIN CONTENT
 					<table>
 						<tr>
 							<td>
-								<div class="btn-group">
-									<button type="button" class="btn btn-default">국내</button>
-									<button type="button" class="btn btn-default">국외</button>
-								</div>      
+								<label for="title">여행 범위</label>
 							</td>
 							<td>
-								<select class="form-control">
+								<select class="form-control" id="selcet_border";>
+									<option>국내</option>
+									<option>국외</option>
+								</select>     
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="title">여행 테마</label>
+							</td>
+							<td>
+								<select class="form-control" id="select_thema";>
 									<option>식도락 여행</option>
 									<option>관광지 탐방</option>
 									<option>쇼핑</option>
@@ -431,7 +470,7 @@ MAIN CONTENT
 						</tr>
 						<tr>
 							<td>
-								<label class="col-sm-2 col-sm-2 control-label" for="title">여행 주제</label>
+								<label for="title">여행 주제</label>
 							</td>
 							<td>
 								<input class="input_normal_style" type="text">
@@ -470,18 +509,18 @@ MAIN CONTENT
 								<textarea name="memo" id="form_memo" placeholder="중요 내용을 대신 기억해드려요."></textarea>
 							</div>
 							<div>
-								<button class="btn btn-default">내용 저장</button>
+								<button class="btn btn-default node_finish">내용 저장</button>
 							</div>
 						</div>
 						<div class="node_second_layout">
 							<div>
-								<button class="node_side_btn">↑</button>
+								<button class="node_side_btn_up">↑</button>
 							</div>
 							<div>
 								<button class="node_side_btn_x">X</button>
 							</div>
 							<div>
-								<button class="node_side_btn">↓</button>
+								<button class="node_side_btn_down">↓</button>
 							</div>
 						</div>
 					</div> -->
@@ -506,7 +545,7 @@ MAIN CONTENT
 	<div id="showup_path_layout" class="showback">
 		<div>
 			<h5>* 경로 보기</h5>
-			<h7>&nbsp;&nbsp;&nbsp;- 선택장소 > 작성완료 클릭 시 경로가 나타납니다.</h7>
+			<h7>&nbsp;&nbsp;&nbsp;- 선택장소 > 내용저장 클릭 시 경로가 나타납니다.</h7>
 		</div>
 
 		<div>
@@ -595,28 +634,17 @@ MAIN CONTENT
 		var mapforpath, placesforpath;
 		var markers = [];	//마커 정보 모음
 		var autocomplete;
-		var tempPlace;
-
+		var NodePlace;
 		var title;
 		var thema01;
 		var thema02;
 		var nodeCount = 0;
-		var nodeInfoArray = [];
-		var nodeInfo = {
-			location: "",
-			tag: 0,
-			latlng: "",
-			startDay: "",
-			startTime: "",
-			endDay: "",
-			endTime: "",
-			context: ""
-		};
+		var nodeInfoArray = new Array();;
 
 		function initialize() {
-			var myLatlng = new google.maps.LatLng(37.566535, 126.97796919999996);	//초기 맵의 포커스를 위해 초기 설정
+			let myLatlng = new google.maps.LatLng(37.566535, 126.97796919999996);	//초기 맵의 포커스를 위해 초기 설정
 			
-			var myOptions = {
+			let myOptions = {
 				zoom: 14,
 				center: myLatlng,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -736,7 +764,6 @@ MAIN CONTENT
 					iw = new google.maps.InfoWindow({
 						content: getIWContent(place),
 					});
-					tempPlace =place;
 
 					iw.open(map, markers[i]);
 				}
@@ -771,85 +798,236 @@ MAIN CONTENT
 		}
 
 		function Add_Type_BTN(){
-			alert("장소가 총 " + (++nodeCount) + "곳 저장되었습니다.");
+			let nodeInfo = {
+			location: "",
+			latlng: "",
+			startDay: "",
+			startTime: "",
+			endDay: "",
+			endTime: "",
+			context: "",
+			mapv:""
+			};
 
-			var div =document.createElement('div');
+			var beforeCount = nodeCount++;
+
+			if(nodeCount >= 2 && nodeInfoArray[beforeCount-1].latlng == NodePlace.geometry.location){
+				let r = confirm("연속으로 같은 곳을 기록합니다.");
+				if(r == true){
+					
+				}else{
+					nodeCount --;
+					return;
+				}
+			}
+			alert("장소가 총 " + (nodeCount) + "곳 저장되었습니다.");
+
+			let div =document.createElement('div');
 			div.className = "location_node";
 
 			if (nodeCount > 1){
-				var div2 =document.createElement('div');
+				let div2 =document.createElement('div');
 				div2.className = "showup_distance";
 
+				let first = nodeInfoArray[nodeCount-2].latlng;
+				let second = NodePlace.geometry.location;
 				document.getElementById('map_canvas_location_list_layout').appendChild(div2).innerHTML =
 						"<div id='node_'" + nodeCount+ ">"+
 							"<span class='arrow test_1'></span>"+
-							"<label>거리 : 000 km</label>"+
+							"<label>거리 : " +  calculateDistance(first.lat(), first.lng(), second.lat(), second.lng())  + "km</label>"+
 						"</div>";
-			}else{
 
+				
 			}
+			nodeInfo.latlng = NodePlace.geometry.location;
+			nodeInfo.mapv = map;
+			nodeInfo.location = NodePlace.name;
+			nodeInfoArray.push(nodeInfo);
 
 			document.getElementById('map_canvas_location_list_layout').appendChild(div).innerHTML = 
-																				
 																			"<div class='node_first_layout'>"+
-																				"<h5> 장소명 : "+tempPlace.name+"</h6>"+
+																				"<h5> 장소명 : "+ NodePlace.name+"</h6>"+
 																				"<div>"+
 																					"<label for='date' class='blind'>도착</label>"+
-																					"<input type='text' class='form_date' placeholder='0000-00-00 00:00'>"+
+																					"<input type='text' class='form_date' placeholder='0000-00-00 00:00 [필수]'>"+
 																				"</div>"+
 																				"<div>"+
 																					"<label for='date' class='blind'>출발</label>"+
-																					"<input type='text' class='form_date' placeholder='0000-00-00 00:00'>"+
+																					"<input type='text' class='form_date' placeholder='0000-00-00 00:00 [필수]'>"+
 																				"</div>"+
 																				"<div class='textarea'>"+
-																					"<textarea name='memo' id='form_memo' placeholder='중요 내용을 대신 기억해드려요.'></textarea>"+
+																					"<textarea name='memo' id='form_memo' placeholder='중요 내용을 대신 기억해드려요. [선택]'></textarea>"+
 																				"</div>"+
 																				"<div>"+
-																					"<button class='btn btn-default'>내용 저장</button>"+
+																					"<button class='btn btn-default node_side_btn_store' value='" + nodeCount +"' name='store' >내용저장</button>"+
 																				"</div>"+
 																			"</div>"+
 																			"<div class='node_second_layout'>"+
 																				"<div>"+
-																					"<button class='node_side_btn' value='" + nodeCount +"'>↑</button>"+
+																					"<button class='node_side_btn_up' value='" + nodeCount +"' name='up' >↑</button>"+
 																				"</div>"+
 																				"<div>"+
-																					"<button class='node_side_btn_x' value='" + nodeCount +"'>X</button>"+
+																					"<button class='node_side_btn_x' value='" + nodeCount +"' name='x' >X</button>"+
 																				"</div>"+
 																				"<div>"+
-																					"<button class='node_side_btn' value='" + nodeCount +"'>↓</button>"+
+																					"<button class='node_side_btn_down' value='" + nodeCount +"' name='down' >↓</button>"+
 																				"</div>"+
 																			"</div>";
-			/* $('#map_canvas_location_list_layout').each(()=>{
-					
+		}
+				
+
+
+		$(document).on("click",".node_side_btn_up",function(){ 
+			let myinput = $(this).val();
+			let now = myinput-1;
+
+			if( now <= 0){
+				alert("맨 처음 일정입니다.")
+			}else{
+				let uppernode = now -1;
+				alert("현재 노드 장소 : " + now + " 상단 노드 장소 : " + uppernode+
+				"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[uppernode].location);
+
+				let tempOne = nodeInfoArray[now];
+				let tempTwo = nodeInfoArray[uppernode];
+
+				nodeInfoArray[now] = tempTwo;
+				nodeInfoArray[uppernode] = tempOne;
+
+				alert("현재 노드 장소 : " + now + " 상단 노드 장소 : " + uppernode+
+				"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[uppernode].location);
+				
+
+				ReDrawListNode();
+			}
+
+		});
+
+		$(document).on("click",".node_side_btn_x",function(){ 
+			let myinput = $(this).val();
+			let now = myinput-1;
+
+			if(confirm(nodeInfoArray[now].location+"을(를) 삭제합니다.") == true){
+				nodeInfoArray.splice(now, 1);
+				nodeCount--;
+				ReDrawListNode();
+			}else{
+				
+			}
+		});
+
+		$(document).on("click",".node_side_btn_down",function(){ 
+			let myinput = $(this).val();
+			let now = myinput-1;
+
+			if( now >= nodeInfoArray.length){
+				alert("맨 마지막 일정입니다.")
+			}else{
+				let undernode = now +1;
+				alert("현재 노드 장소 : " + now + " 상단 노드 장소 : " + undernode+
+				"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[undernode].location);
+
+				let tempOne = nodeInfoArray[now];
+				let tempTwo = nodeInfoArray[undernode];
+
+				nodeInfoArray[now] = tempTwo;
+				nodeInfoArray[undernode] = tempOne;
+
+				alert("현재 노드 장소 : " +now + " 상단 노드 장소 : " + undernode+
+				"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[undernode].location);
+				
+
+				ReDrawListNode();
+			}
+		});
+
+		$(document).on("click",".node_side_btn_store",function(){ 
+			let myinput = $(this).val();
+			alert(myinput);
+		});
+
+		function ReDrawListNode(){
+			nodeInfoArray.forEach((item, i)=>{
+				alert(item.location + " : " + i );
+				
+				if(i > 0){
+					let div2_re =document.createElement('div');
+					div2_re.className = "showup_distance";
+
+					let first = nodeInfoArray[i-1].latlng;
+					let second = nodeInfoArray[i].latlng;
+
+					let arrow = document.getElementById('map_canvas_location_list_layout').appendChild(div2_re);
+					arrow.innerHTML =
+							"<div id='node_'" + i+ ">"+
+								"<span class='arrow test_1'></span>"+
+								"<label>거리 : " + calculateDistance(first.lat(), first.lng(), second.lat(), second.lng()) + " km</label>"+
+							"</div>";
 				}
-			); */
+				let div_re =document.createElement('div');
+				div_re.className = "location_node";
+				if(i == 0){document.getElementById('map_canvas_location_list_layout').innerHTML="";}
+				let locationnode = document.getElementById('map_canvas_location_list_layout').appendChild(div_re);
+				locationnode.innerHTML = 									
+										"<div class='node_first_layout'>"+
+											"<h5> 장소명 : "+ item.location +"</h6>"+
+											"<div>"+
+												"<label for='date' class='blind'>도착</label>"+
+												"<input type='text' class='form_date' placeholder='0000-00-00 00:00 [필수]'>"+
+											"</div>"+
+											"<div>"+
+												"<label for='date' class='blind'>출발</label>"+
+												"<input type='text' class='form_date' placeholder='0000-00-00 00:00 [필수]'>"+
+											"</div>"+
+											"<div class='textarea'>"+
+												"<textarea name='memo' id='form_memo' placeholder='중요 내용을 대신 기억해드려요. [선택]'></textarea>"+
+											"</div>"+
+											"<div>"+
+												"<button class='btn btn-default node_side_btn_store' value='" + (i+1) +"' name='store' >내용저장</button>"+
+											"</div>"+
+										"</div>"+
+										"<div class='node_second_layout'>"+
+											"<div>"+
+												"<button class='node_side_btn_up' value='" + (i+1) +"' name='up' >↑</button>"+
+											"</div>"+
+											"<div>"+
+												"<button class='node_side_btn_x' value='" + (i+1)  +"' name='x' >X</button>"+
+											"</div>"+
+											"<div>"+
+												"<button class='node_side_btn_down' value='" + (i+1) +"' name='down' >↓</button>"+
+											"</div>"+
+										"</div>";
+
+
+			});
 
 		}
 
-		function node_x_btn(){
-
-		}
-
-		function node_up_btn(){
-
-		}
-
-		function node_down_btn(){
-
-		}
-
-		function node_store_btn(){
-
-		}
-
-		function getIWContent(place) {
+		function getIWContent(temp) {
+			NodePlace = temp;
 			//이부분이 클릭 이벤트가 들어가는 부분이다.!!
-			var content = '<table style="border:0"><tr><td style="border:0;">';
-			content += '<img class="placeIcon" src="' + place.icon + '"></td>';
-			content += '<td style="border:0;"><b>'+place.name+'</b>';
+			let content = '<table style="border:0"><tr><td style="border:0;">';
+			content += '<img class="placeIcon" src="' + temp.icon + '"></td>';
+			content += '<td style="border:0;"><b>'+temp.name+'</b>';
 			content += '</td></tr></table>';
-			content += '<input type="button" value="추가하기" onclick="button_event();">';
+			content += "<input class='btn btn-round btn-success' type='button' value='추가하기' onclick='button_event();'>";
 			return content;
+		}
+
+		// 위도 경도 거리 계산 공식, 소수점 2자리 반올림
+		function calculateDistance(lat1, lon1, lat2, lon2) {
+			var R = 6371; // km
+			var dLat = (lat2-lat1).toRad();
+			var dLon = (lon2-lon1).toRad(); 
+			var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+					Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+					Math.sin(dLon/2) * Math.sin(dLon/2); 
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+			var d = R * c;
+			return d.toFixed(2);
+		}
+		Number.prototype.toRad = function() {
+			return this * Math.PI / 180;
 		}
 
 		//해당 완료 시 맵을 로드한다.
