@@ -113,22 +113,23 @@
 			width: 50%
 		}
 
-		#sheet_context_basicinfo_thema_layout{
-			margin: 1% auto;
-			padding: 1%;
+		#sheet_context_basicinfo_thema_layout > table{
+			margin: 0;
+			padding: 0;
+			width: 100%;
 		}
 
-		#sheet_context_basicinfo_thema_layout > .btn-group{
-			float: left;
-			margin:0 auto;
-			margin-right: 10em;
+		#sheet_context_basicinfo_thema_layout > table > tr > td:first-child{
+			margin: 0;
+			padding: 0;
+			width: 10em;
 		}
 
-		#sheet_context_basicinfo_thema_layout > select{
-			float: left;
-			margin:0 auto;
-			width: 30%
-		}
+
+
+
+
+
 		#map_canvas_for_path_layout{
 			margin: 1%;
 			padding: 0%;
@@ -182,7 +183,7 @@
 		}
 
 		.node_first_layout > div:nth-child(4) > textarea{
-			width: 92.5%;
+			width: 100%;
 			margin-bottom:5px;
 			line-height:18px;
 			padding:2px 5px;
@@ -206,7 +207,7 @@
 			flex: 1;
 			margin: 0%;
 			padding: 0%;
-			padding-top: 5%;
+			padding-top: 8%;
 		}
 		
 
@@ -269,6 +270,21 @@
 		.test_1{width:10px; height:20px;}
 		.test_1:after{border-width:20px 15px;}
 		.test_1:after {border-color:#7d1919 transparent transparent transparent; top:20px; left:-10px;}
+
+		#showup_path_layout{
+		}
+
+		#map_canvas_for_path_layout{
+			margin: 0% auto;
+			padding: 1%;
+		}
+
+		#map_canvas_for_path{
+			margin: 0%;
+			padding: 0%;
+			width: 100%;
+			height: 30em;
+		}
 
 	</style>
   </head>
@@ -393,25 +409,35 @@ MAIN CONTENT
 			<div id="sheet_context_basicinfo_layout" class="showback">
 				<h5>* 간단 정보</h5>
 				<div id="sheet_context_basicinfo_thema_layout">
-					<div class="btn-group">
-						<button type="button" class="btn btn-default">국내</button>
-						<button type="button" class="btn btn-default">국외</button>
-					</div>      	
-					<select class="form-control">
-						<option>식도락 여행</option>
-						<option>관광지 탐방</option>
-						<option>쇼핑</option>
-						<option>배낭 여행</option>	
-						<option>감성 여행</option>
-						<option>무전 여행</option>
-						<option>기타 테마</option>
-					</select>
-				</div>
-
-
-				<div id="sheet_context_basicinfo_title_layout">
-					<label class="col-sm-2 col-sm-2 control-label" for="title">여행 주제</label>
-					<input class="input_normal_style" type="text">
+					<table>
+						<tr>
+							<td>
+								<div class="btn-group">
+									<button type="button" class="btn btn-default">국내</button>
+									<button type="button" class="btn btn-default">국외</button>
+								</div>      
+							</td>
+							<td>
+								<select class="form-control">
+									<option>식도락 여행</option>
+									<option>관광지 탐방</option>
+									<option>쇼핑</option>
+									<option>배낭 여행</option>	
+									<option>감성 여행</option>
+									<option>무전 여행</option>
+									<option>기타 테마</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="col-sm-2 col-sm-2 control-label" for="title">여행 주제</label>
+							</td>
+							<td>
+								<input class="input_normal_style" type="text">
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -429,7 +455,7 @@ MAIN CONTENT
 				<div id="map_canvas_location_list_layout">
 
 					<!-- Node !! Part -->
-					<div class="location_node">
+					<!-- <div class="location_node">
 						<div class="node_first_layout">
 							<h5>Location</h6>
 							<div>
@@ -458,51 +484,18 @@ MAIN CONTENT
 								<button class="node_side_btn">↓</button>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!-- -->
-
-
 					<!-- 거리 노드 -->
-					<div class="showup_distance">
+					<!-- <div class="showup_distance">
 						<div>
 							<span class="arrow test_1"></span>
 							<label>거리 : 000 km</label>
 						</div>
-					</div>
+					</div> -->
 					<!--  -->
 
-					<!-- Node !! Part -->
-					<div class="location_node">
-							<div class="node_first_layout">
-								<h5>Location</h6>
-								<div>
-									<label for="date" class="blind">도착</label>
-									<input type="text" class="form_date" placeholder="0000-00-00 00:00">
-								</div>
-								<div>
-									<label for="date" class="blind">출발</label>
-									<input type="text" class="form_date" placeholder="0000-00-00 00:00">
-								</div>
-								<div class="textarea">
-									<textarea name="memo" id="form_memo" placeholder="중요 내용을 대신 기억해드려요."></textarea>
-								</div>
-								<div>
-									<button class="btn btn-default">내용 저장</button>
-								</div>
-							</div>
-							<div class="node_second_layout">
-								<div>
-									<button class="node_side_btn">↑</button>
-								</div>
-								<div>
-									<button class="node_side_btn_x">X</button>
-								</div>
-								<div>
-									<button class="node_side_btn">↓</button>
-								</div>
-							</div>
-						</div>
-						<!-- -->
+					
 
 				</div>
 			</div>
@@ -513,10 +506,13 @@ MAIN CONTENT
 	<div id="showup_path_layout" class="showback">
 		<div>
 			<h5>* 경로 보기</h5>
+			<h7>&nbsp;&nbsp;&nbsp;- 선택장소 > 작성완료 클릭 시 경로가 나타납니다.</h7>
 		</div>
 
-		<div id="map_canvas_for_path_layout">
-			<div id="map_canvas_for_path" style="height:350px;width:100%;"></div>
+		<div>
+			<div id="map_canvas_for_path_layout">
+				<div id="map_canvas_for_path"></div>
+			</div>
 		</div>
 
 		<div id="showup_path_node">
@@ -524,33 +520,6 @@ MAIN CONTENT
 		</div>
 		
 	</div>
-		
-		
-		
-<!--     <div class="row mt">
-		
-
-		<aside class="col-lg-3 mt">
-						<h4><i class="fa fa-angle-right"></i> 선택 장소</h4>
-							<div id="external-events">
-									<div class="external-event label label-theme">My Event 1</div>
-									<div class="external-event label label-success">My Event 2</div>
-									<div class="external-event label label-info">My Event 3</div>
-									<div class="external-event label label-warning">My Event 4</div>
-									<div class="external-event label label-danger">My Event 5</div>
-									<div class="external-event label label-default">My Event 6</div>
-									<div class="external-event label label-theme">My Event 7</div>
-									<div class="external-event label label-info">My Event 8</div>
-									<div class="external-event label label-success">My Event 9</div>
-							</div>
-							<p class="drop-after">
-								<input type="checkbox" id="drop-remove">
-									체크 후 드래그 시 장소가 삭제됩니다.
-							</p>
-		</aside>
-    </div> -->
-
-	
 
 	
 
@@ -613,7 +582,7 @@ MAIN CONTENT
 	<script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
 
     <!--common script for all pages-->
-    <script src="assets/js/common-scripts.js"></script>
+	<script src="assets/js/common-scripts.js"></script>
 
 	<!-- 맵연동하는 코드 -->
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
@@ -631,13 +600,12 @@ MAIN CONTENT
 		var title;
 		var thema01;
 		var thema02;
-		var nodeCount=0;
+		var nodeCount = 0;
 		var nodeInfoArray = [];
 		var nodeInfo = {
 			location: "",
 			tag: 0,
-			lat: 0,
-			lng: 0,
+			latlng: "",
 			startDay: "",
 			startTime: "",
 			endDay: "",
@@ -803,34 +771,74 @@ MAIN CONTENT
 		}
 
 		function Add_Type_BTN(){
-			//document.getElementById('external-events').innerHTML='<div class="external-event label label-info">' + tempPlace.name + '</div>';
-			
+			alert("장소가 총 " + (++nodeCount) + "곳 저장되었습니다.");
+
 			var div =document.createElement('div');
-			div.className = "external-event label label-info";
+			div.className = "location_node";
 
-			document.getElementById('external-events').appendChild(div).innerHTML = tempPlace.name;
+			if (nodeCount > 1){
+				var div2 =document.createElement('div');
+				div2.className = "showup_distance";
 
-			$('#external-events div.external-event').each(function() {
+				document.getElementById('map_canvas_location_list_layout').appendChild(div2).innerHTML =
+						"<div id='node_'" + nodeCount+ ">"+
+							"<span class='arrow test_1'></span>"+
+							"<label>거리 : 000 km</label>"+
+						"</div>";
+			}else{
 
-				// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-				// it doesn't need to have a start or end
-				var eventObject = {
-					title: $.trim($(this).text()) // use the element's text as the event title
-				};
+			}
 
-				// store the Event Object in the DOM element so we can get to it later
-				$(this).data('eventObject', eventObject);
-
-				// make the event draggable using jQuery UI
-				$(this).draggable({
-					zIndex: 999,
-					revert: true,      // will cause the event to go back to its
-					revertDuration: 0  //  original position after the drag
+			document.getElementById('map_canvas_location_list_layout').appendChild(div).innerHTML = 
+																				
+																			"<div class='node_first_layout'>"+
+																				"<h5> 장소명 : "+tempPlace.name+"</h6>"+
+																				"<div>"+
+																					"<label for='date' class='blind'>도착</label>"+
+																					"<input type='text' class='form_date' placeholder='0000-00-00 00:00'>"+
+																				"</div>"+
+																				"<div>"+
+																					"<label for='date' class='blind'>출발</label>"+
+																					"<input type='text' class='form_date' placeholder='0000-00-00 00:00'>"+
+																				"</div>"+
+																				"<div class='textarea'>"+
+																					"<textarea name='memo' id='form_memo' placeholder='중요 내용을 대신 기억해드려요.'></textarea>"+
+																				"</div>"+
+																				"<div>"+
+																					"<button class='btn btn-default'>내용 저장</button>"+
+																				"</div>"+
+																			"</div>"+
+																			"<div class='node_second_layout'>"+
+																				"<div>"+
+																					"<button class='node_side_btn' value='" + nodeCount +"'>↑</button>"+
+																				"</div>"+
+																				"<div>"+
+																					"<button class='node_side_btn_x' value='" + nodeCount +"'>X</button>"+
+																				"</div>"+
+																				"<div>"+
+																					"<button class='node_side_btn' value='" + nodeCount +"'>↓</button>"+
+																				"</div>"+
+																			"</div>";
+			/* $('#map_canvas_location_list_layout').each(()=>{
+					
 				}
-			
-			);
+			); */
 
-    	});
+		}
+
+		function node_x_btn(){
+
+		}
+
+		function node_up_btn(){
+
+		}
+
+		function node_down_btn(){
+
+		}
+
+		function node_store_btn(){
 
 		}
 
@@ -843,14 +851,6 @@ MAIN CONTENT
 			content += '<input type="button" value="추가하기" onclick="button_event();">';
 			return content;
 		}
-
-		/*
-		<a href="' + place.url + '">' + place.name + " 추가" + '</a>
-		*/
-
-		/*$('.external-events').on('click', '#external-event', function(e) {
-			alert('123');
-    	});*/
 
 		//해당 완료 시 맵을 로드한다.
 		google.maps.event.addDomListener(window, 'load', initialize);
