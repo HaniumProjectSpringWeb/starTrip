@@ -11,13 +11,17 @@
 	
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+	<link href="assets/css/bootstrap.css" rel="stylesheet">
+
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
 	<link href="assets/css/style-responsive.css" rel="stylesheet">
 	
+	<link href="./assets/datetime/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="./assets/datetime/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
 	<style>
 		td{
 			height: 4em;
@@ -175,7 +179,7 @@
 			margin-right: 5em;
 		}
 		.node_first_layout > div:nth-child(2) > input{
-			width: 65%;
+			width: 40%;
 			margin-bottom:5px;
 			line-height:18px;
 			padding:2px 5px;
@@ -183,6 +187,9 @@
 			-moz-border-radius: 5px;
 			border-radius: 5px;
 			border:1px solid #CCC;
+		}
+		.node_first_layout > div:nth-child(3){
+			padding-top: 0.5em; 
 		}
 		.node_first_layout > div:nth-child(3) > label{
 			color: #000000;
@@ -285,9 +292,6 @@
 			margin: 0 auto;
 		}
 
-		.showup_distance > div:first-child > span{
-		}
-
 		.showup_distance > div:first-child > label{
 			color: #000000;
 			padding-left: 1.5em;
@@ -313,6 +317,10 @@
 			padding: 0%;
 			width: 100%;
 			height: 30em;
+		}
+
+		.form-group > div:first-child{
+			width: 50%;
 		}
 
 	</style>
@@ -545,7 +553,7 @@ MAIN CONTENT
 	<div id="showup_path_layout" class="showback">
 		<div>
 			<h5>* 경로 보기</h5>
-			<h7>&nbsp;&nbsp;&nbsp;- 선택장소 > 내용저장 클릭 시 경로가 나타납니다.</h7>
+			<h7>&nbsp;&nbsp;&nbsp;- 선택장소 > 내용저장 클릭 시 경로가 나타납니다.<sub>&nbsp;&nbsp;&nbsp;(저장 : 초록색)</sub></h7>
 		</div>
 
 		<div>
@@ -555,7 +563,6 @@ MAIN CONTENT
 		</div>
 
 		<div id="showup_path_node">
-
 		</div>
 		
 	</div>
@@ -620,12 +627,21 @@ MAIN CONTENT
     <script src="assets/js/jquery.scrollTo.min.js"></script>
 	<script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
 
+	
+
     <!--common script for all pages-->
 	<script src="assets/js/common-scripts.js"></script>
 
 	<!-- 맵연동하는 코드 -->
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+	<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>-->
 
+	<script type="text/javascript" src="./assets/datetime/jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="./assets/datetime/bootstrap-datetimepicker.js" charset="UTF-8"></script> <!-- 이부분에서 이벤트 정의 -->
+	<script type="text/javascript" src="./assets/datetime/bootstrap-datetimepicker.ko.js" charset="UTF-8"></script>
+
+	<script type="text/javascript" async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdoXf1CWYqNVCx3ylN-LEIiZULuWscoig&sensor=false&libraries=places&callback=initialize">
+    </script>
 
 	<!--맵 관련 사항 -->
 	<script type="text/javascript">
@@ -633,6 +649,7 @@ MAIN CONTENT
 		var map, places, iw;
 		var mapforpath, placesforpath;
 		var markers = [];	//마커 정보 모음
+		var flightPath;
 		var autocomplete;
 		var NodePlace;
 		var title;
@@ -658,7 +675,6 @@ MAIN CONTENT
 			placesforpath = new google.maps.places.PlacesService(mapforpath);
 
 			google.maps.event.addListener(map, 'tilesloaded', tilesLoaded);    // 지도에 해당 마커를 표시하는 리스터 정의 부분
-			google.maps.event.addListener(mapforpath, 'tilesloaded', tilesLoaded);
 			
 			autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'));	//이 부분이 텍스트에딧부분 설정 코드
 			google.maps.event.addListener(autocomplete, 'place_changed', function () {
@@ -806,7 +822,8 @@ MAIN CONTENT
 			endDay: "",
 			endTime: "",
 			context: "",
-			mapv:""
+			mapv:"",
+			tag:0
 			};
 
 			var beforeCount = nodeCount++;
@@ -845,18 +862,27 @@ MAIN CONTENT
 			nodeInfoArray.push(nodeInfo);
 
 			document.getElementById('map_canvas_location_list_layout').appendChild(div).innerHTML = 
-																			"<div class='node_first_layout'>"+
+																			"<div class='node_first_layout' id='node_first_layout_"+nodeCount+"'>"+
 																				"<h5> 장소명 : "+ NodePlace.name+"</h6>"+
-																				"<div>"+
+																				"<div class='form-group'>"+
 																					"<label for='date' class='blind'>도착</label>"+
-																					"<input type='text' class='form_date' placeholder='0000-00-00 00:00 [필수]'>"+
+																					//"<input type='text' class='form_date form-control' placeholder='0000-00-00 00:00 [필수]'>"+
+																					"<div class='input-group date form_datetime' data-date-format='yyyy-mm-dd HH:ii:p'>"+
+																						"<input id='node_input_start_" + nodeCount +"' class='form-control form_date form-control' type='text' value='' placeholder='0000-00-00 00:00 [필수]' sytle='width:10em;' readonly>"+
+																						"<span class='input-group-addon'><span class='glyphicon glyphicon-th'></span></span>"+
+																					"</div>"+
 																				"</div>"+
-																				"<div>"+
+																				"<div class='form-group'>"+
 																					"<label for='date' class='blind'>출발</label>"+
-																					"<input type='text' class='form_date' placeholder='0000-00-00 00:00 [필수]'>"+
+																					//"<input type='text' class='form_date form-control' placeholder='0000-00-00 00:00 [필수]'>"+
+																					"<div class='input-group date form_datetime' data-date-format='yyyy-mm-dd HH:ii:p'>"+
+																						"<input class='form-control form_date form-control' id='node_input_end_" + nodeCount +"' type='text' value='' placeholder='0000-00-00 00:00 [필수]' sytle='width:10em;' readonly>"+
+																						"<span class='input-group-addon'><span class='glyphicon glyphicon-th'></span></span>"+
+																					"</div>"+
 																				"</div>"+
 																				"<div class='textarea'>"+
-																					"<textarea name='memo' id='form_memo' placeholder='중요 내용을 대신 기억해드려요. [선택]'></textarea>"+
+																					"<label for='context' class='blind'>메모</label>"+
+																					"<textarea name='memo' id='node_input_context_" + nodeCount +"' placeholder='중요 내용을 대신 기억해드려요. [선택]' for='context'></textarea>"+
 																				"</div>"+
 																				"<div>"+
 																					"<button class='btn btn-default node_side_btn_store' value='" + nodeCount +"' name='store' >내용저장</button>"+
@@ -885,8 +911,8 @@ MAIN CONTENT
 				alert("맨 처음 일정입니다.")
 			}else{
 				let uppernode = now -1;
-				alert("현재 노드 장소 : " + now + " 상단 노드 장소 : " + uppernode+
-				"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[uppernode].location);
+				//alert("현재 노드 장소 : " + now + " 상단 노드 장소 : " + uppernode+
+				//"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[uppernode].location);
 
 				let tempOne = nodeInfoArray[now];
 				let tempTwo = nodeInfoArray[uppernode];
@@ -894,8 +920,8 @@ MAIN CONTENT
 				nodeInfoArray[now] = tempTwo;
 				nodeInfoArray[uppernode] = tempOne;
 
-				alert("현재 노드 장소 : " + now + " 상단 노드 장소 : " + uppernode+
-				"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[uppernode].location);
+				//alert("현재 노드 장소 : " + now + " 상단 노드 장소 : " + uppernode+
+				//"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[uppernode].location);
 				
 
 				ReDrawListNode();
@@ -920,12 +946,13 @@ MAIN CONTENT
 			let myinput = $(this).val();
 			let now = myinput-1;
 
-			if( now >= nodeInfoArray.length){
+
+			if( myinput >= nodeInfoArray.length){
 				alert("맨 마지막 일정입니다.")
 			}else{
 				let undernode = now +1;
-				alert("현재 노드 장소 : " + now + " 상단 노드 장소 : " + undernode+
-				"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[undernode].location);
+				//alert("현재 노드 장소 : " + now + " 상단 노드 장소 : " + undernode+
+				//"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[undernode].location);
 
 				let tempOne = nodeInfoArray[now];
 				let tempTwo = nodeInfoArray[undernode];
@@ -933,8 +960,8 @@ MAIN CONTENT
 				nodeInfoArray[now] = tempTwo;
 				nodeInfoArray[undernode] = tempOne;
 
-				alert("현재 노드 장소 : " +now + " 상단 노드 장소 : " + undernode+
-				"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[undernode].location);
+				//alert("현재 노드 장소 : " +now + " 상단 노드 장소 : " + undernode+
+				//"\n현재 노드 장소 : " + nodeInfoArray[now].location + " 상단 노드 장소 : " + nodeInfoArray[undernode].location);
 				
 
 				ReDrawListNode();
@@ -943,13 +970,63 @@ MAIN CONTENT
 
 		$(document).on("click",".node_side_btn_store",function(){ 
 			let myinput = $(this).val();
-			alert(myinput);
+
+			//now is selected node in array
+			let now = myinput-1;
+
+			//let startDay = document.getElementById("node_input_start_"+myinput).val();
+			let startDay = $( "#node_input_start_" + myinput ).val();
+			let endDay = $( "#node_input_end_" + myinput ).val();
+			let contextNode = $( "#node_input_context_" + myinput ).val();
+
+			if(startDay === null || endDay == null || startDay === '' || endDay == ''){
+				alert("필수 항목은 모두 작성하셔야합니다.");
+			}else{
+				let chkstart = startDay.split(' ');
+				let start_day = chkstart[0].split('-');
+				let start_time = chkstart[1].split(':');
+				let chkend = endDay.split(' ');
+				let end_day = chkend[0].split('-');
+				let end_time = chkend[1].split(':');
+
+				if(Number(start_day[0]) <= Number(end_day[0]) ||
+				Number(start_day[1]) <= Number(end_day[1]) || 
+				Number(start_day[2]) <= Number(end_day[2])){
+					//일시별 확인
+
+					nodeInfoArray[myinput-1].startDay = chkstart[0];
+					nodeInfoArray[myinput-1].startTime = chkstart[1];
+					nodeInfoArray[myinput-1].endDay = chkend[0];
+					nodeInfoArray[myinput-1].endTime = chkend[1];
+					nodeInfoArray[myinput-1].context = contextNode;
+					nodeInfoArray[myinput-1].tag = 1;
+
+					alert("장소 : " + nodeInfoArray[myinput-1].location + "\n" + 
+						"도착일 : " + nodeInfoArray[myinput-1].startDay + "\n" +
+						"도착시간 : " + nodeInfoArray[myinput-1].startTime + "\n" + 
+						"출발일 : " + nodeInfoArray[myinput-1].endDay + "\n" + 
+						"출발시간 : " + nodeInfoArray[myinput-1].endTime + "\n" + 
+						"메모내용 : " + nodeInfoArray[myinput-1].context
+					);
+
+					let complete =document.getElementById("node_first_layout_"+(myinput));
+
+					complete.setAttribute('style', 'background:#56B37F;');
+
+					location_map_marker();
+				}else{
+					alert("도착일 및 출발일을 확인해주세요.")
+				}
+
+				
+			}
+			
+
+
 		});
 
 		function ReDrawListNode(){
-			nodeInfoArray.forEach((item, i)=>{
-				alert(item.location + " : " + i );
-				
+			nodeInfoArray.forEach((item, i)=>{				
 				if(i > 0){
 					let div2_re =document.createElement('div');
 					div2_re.className = "showup_distance";
@@ -968,19 +1045,29 @@ MAIN CONTENT
 				div_re.className = "location_node";
 				if(i == 0){document.getElementById('map_canvas_location_list_layout').innerHTML="";}
 				let locationnode = document.getElementById('map_canvas_location_list_layout').appendChild(div_re);
-				locationnode.innerHTML = 									
-										"<div class='node_first_layout'>"+
-											"<h5> 장소명 : "+ item.location +"</h6>"+
-											"<div>"+
+				if(item.startDay == ''){
+					locationnode.innerHTML = 
+										"<div class='node_first_layout' id='node_first_layout_"+(i+1)+"'>"+
+											"<h5> 장소명 : "+ item.location+"</h6>"+
+											"<div class='form-group'>"+
 												"<label for='date' class='blind'>도착</label>"+
-												"<input type='text' class='form_date' placeholder='0000-00-00 00:00 [필수]'>"+
+												//"<input type='text' class='form_date form-control' placeholder='0000-00-00 00:00 [필수]'>"+
+												"<div class='input-group date form_datetime' data-date-format='yyyy-mm-dd HH:ii:p'>"+
+													"<input id='node_input_start_" + (i+1) +"' class='form-control form_date form-control' type='text' value='' placeholder='0000-00-00 00:00 [필수]' sytle='width:10em;' readonly>"+
+													"<span class='input-group-addon'><span class='glyphicon glyphicon-th'></span></span>"+
+												"</div>"+
 											"</div>"+
-											"<div>"+
+											"<div class='form-group'>"+
 												"<label for='date' class='blind'>출발</label>"+
-												"<input type='text' class='form_date' placeholder='0000-00-00 00:00 [필수]'>"+
+												//"<input type='text' class='form_date form-control' placeholder='0000-00-00 00:00 [필수]'>"+
+												"<div class='input-group date form_datetime' data-date-format='yyyy-mm-dd HH:ii:p'>"+
+													"<input class='form-control form_date form-control' id='node_input_end_" + (i+1) +"' type='text' value='' placeholder='0000-00-00 00:00 [필수]' sytle='width:10em;' readonly>"+
+													"<span class='input-group-addon'><span class='glyphicon glyphicon-th'></span></span>"+
+												"</div>"+
 											"</div>"+
 											"<div class='textarea'>"+
-												"<textarea name='memo' id='form_memo' placeholder='중요 내용을 대신 기억해드려요. [선택]'></textarea>"+
+												"<label for='context' class='blind'>메모</label>"+
+												"<textarea name='memo' id='node_input_context_" + (i+1) +"' placeholder='중요 내용을 대신 기억해드려요. [선택]' for='context' value='"+ item.context +"'></textarea>"+
 											"</div>"+
 											"<div>"+
 												"<button class='btn btn-default node_side_btn_store' value='" + (i+1) +"' name='store' >내용저장</button>"+
@@ -991,15 +1078,61 @@ MAIN CONTENT
 												"<button class='node_side_btn_up' value='" + (i+1) +"' name='up' >↑</button>"+
 											"</div>"+
 											"<div>"+
-												"<button class='node_side_btn_x' value='" + (i+1)  +"' name='x' >X</button>"+
+												"<button class='node_side_btn_x' value='" + (i+1) +"' name='x' >X</button>"+
 											"</div>"+
 											"<div>"+
 												"<button class='node_side_btn_down' value='" + (i+1) +"' name='down' >↓</button>"+
 											"</div>"+
 										"</div>";
+				}else{
+					locationnode.innerHTML = 
+										"<div class='node_first_layout' id='node_first_layout_"+(i+1)+"'>"+
+											"<h5> 장소명 : "+ item.location+"</h6>"+
+											"<div class='form-group'>"+
+												"<label for='date' class='blind'>도착</label>"+
+												//"<input type='text' class='form_date form-control' placeholder='0000-00-00 00:00 [필수]'>"+
+												"<div class='input-group date form_datetime' data-date-format='yyyy-mm-dd HH:ii:p'>"+
+													"<input id='node_input_start_" + (i+1) +"' class='form-control form_date form-control' type='text' value='"+ item.startDay+" " + item.startTime +"' placeholder='0000-00-00 00:00 [필수]' sytle='width:10em;' readonly>"+
+													"<span class='input-group-addon'><span class='glyphicon glyphicon-th'></span></span>"+
+												"</div>"+
+											"</div>"+
+											"<div class='form-group'>"+
+												"<label for='date' class='blind'>출발</label>"+
+												//"<input type='text' class='form_date form-control' placeholder='0000-00-00 00:00 [필수]'>"+
+												"<div class='input-group date form_datetime' data-date-format='yyyy-mm-dd HH:ii:p'>"+
+													"<input class='form-control form_date form-control' id='node_input_end_" + (i+1) +"' type='text' value='"+ item.endDay+" " + item.endTime +"' placeholder='0000-00-00 00:00 [필수]' sytle='width:10em;' readonly>"+
+													"<span class='input-group-addon'><span class='glyphicon glyphicon-th'></span></span>"+
+												"</div>"+
+											"</div>"+
+											"<div class='textarea'>"+
+												"<label for='context' class='blind'>메모</label>"+
+												"<textarea name='memo' id='node_input_context_" + (i+1) +"' placeholder='중요 내용을 대신 기억해드려요. [선택]' for='context' value='"+ item.context +"'></textarea>"+
+											"</div>"+
+											"<div>"+
+												"<button class='btn btn-default node_side_btn_store' value='" + (i+1) +"' name='store' >내용저장</button>"+
+											"</div>"+
+										"</div>"+
+										"<div class='node_second_layout'>"+
+											"<div>"+
+												"<button class='node_side_btn_up' value='" + (i+1) +"' name='up' >↑</button>"+
+											"</div>"+
+											"<div>"+
+												"<button class='node_side_btn_x' value='" + (i+1) +"' name='x' >X</button>"+
+											"</div>"+
+											"<div>"+
+												"<button class='node_side_btn_down' value='" + (i+1) +"' name='down' >↓</button>"+
+											"</div>"+
+										"</div>";
+				}
 
-
+				if(item.tag == 1){
+					let complete =document.getElementById("node_first_layout_"+(i+1));
+					complete.setAttribute('style', 'background:#56B37F;');
+				}
+				
 			});
+
+			location_map_marker();
 
 		}
 
@@ -1030,9 +1163,66 @@ MAIN CONTENT
 			return this * Math.PI / 180;
 		}
 
+		$(document).on("click",".form_datetime",function(){ 
+			$(this).datetimepicker({
+				weekStart: 1,
+				todayBtn:  1,
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				forceParse: 0,
+				showMeridian: 1
+			});
+		});
+
+		function location_map_marker(){
+			let flightPlanCoordinates =[];
+
+			for(var j = 0; j < nodeInfoArray.length; j++){
+				if(nodeInfoArray[j].tag ==1){
+					//작성완성시
+					//first.lat(), first.lng()
+					flightPlanCoordinates.push({
+						lat : nodeInfoArray[j].latlng.lat(),
+						lng : nodeInfoArray[j].latlng.lng(),
+						position: nodeInfoArray[j].latlng,
+						icons : [{ //방향을 알기 위한 화살표 표시
+								icon : {path : google.maps.SymbolPath.BACKWARD_CLOSED_ARROW}
+								, offset  : '100%'
+								, repeat : '100px'
+									}],
+						title: nodeInfoArray[j].location,
+						map: nodeInfoArray[j].map
+					});
+
+				}
+			}
+
+			if(flightPlanCoordinates.length >= 2){
+				flightPath.setMap(null);
+			}
+
+
+			flightPath = new google.maps.Polyline({
+				path: flightPlanCoordinates,
+				geodesic: true,
+				strokeColor: '#FF0000',
+				strokeOpacity: 1.0,
+				strokeWeight: 8
+			});
+			
+
+			//markers_path.setMap(mapforpath);
+			flightPath.setMap(mapforpath);
+			mapforpath.setCenter(flightPlanCoordinates[flightPlanCoordinates.length-1].position);
+			
+		}
+
+
 		//해당 완료 시 맵을 로드한다.
-		google.maps.event.addDomListener(window, 'load', initialize);
+		//google.maps.event.addDomListener(window, 'load', initialize);
 
 	</script>
+	
   </body>
 </html>
