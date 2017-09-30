@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+	<meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+
+    <title>한이음 아이템 여행 다이어리</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <!--external css-->
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="assets/js/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
+        
+    <!-- Custom styles for this template -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/style-responsive.css" rel="stylesheet">
+
+	<style>
+			#sheet_top_layout{
+				display: flex;
+			}
+			#sheet_top_title{
+				flex: 8;
+			}
+			#sheet_top_title h3{
+				margin: 1em;
+			}
+			#modify_btn{
+				flex: 2;
+				margin: auto;
+				text-align: center
+			}
+	
+			#modify_btn > div:first-child{
+				float: right;
+				clear: both;
+			}
+			#main-content{
+				background: #F0FFF0
+			}
+			
+			.placeIcon {
+				width: 16px;
+				height: 16px;
+				margin: 2px;
+			}
+			#locationField {
+				margin: 1%;
+				padding: 0%;
+			}
+			#autocomplete{
+				width: 50%;
+			}
+	
+			#sheet_context_basicinfo_title_layout{
+				margin: 3% auto;
+				padding: 2%;
+			}
+	
+			#sheet_context_basicinfo_title_layout > label{
+				margin: 0%;
+				padding: 0%; 
+				float: left;
+				margin-right: 2.3em;
+			}
+	
+			#sheet_context_basicinfo_title_layout > input{
+				margin: 0%;
+				float: left;
+				width: 50%
+			}
+	
+			#map_canvas_for_path_layout{
+				margin: 1%;
+				padding: 0%;
+			}
+	
+			.input_normal_style {
+				margin-bottom:5px;
+				line-height:18px;
+				padding:2px 5px;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				border:1px solid #CCC;
+			}
+
+			.arrow {display:inline-block; background:#7d1919; position:relative;}
+			.arrow:after {content:''; position:absolute; width:0; height:0; border-style:solid;}
+			.test_1{width:10px; height:20px;}
+			.test_1:after{border-width:20px 15px;}
+			.test_1:after {border-color:#7d1919 transparent transparent transparent; top:20px; left:-10px;}
+	
+	
+			#map_canvas_for_path_layout{
+				margin: 0% auto;
+				padding: 1%;
+			}
+	
+			#map_canvas_for_path{
+				margin: 0%;
+				padding: 0%;
+				width: 100%;
+				height: 30em;
+			}
+	
+			.form-group > div:first-child{
+				width: 50%;
+			}
+
+			#showup_path_layout{
+				margin: 0%;
+				padding: 2%
+			}
+
+			#show_scheduler_layout{
+				padding: 0%;
+				margin: 0%;
+				margin-bottom: 3%;
+				width: 100%;
+				height: 60%;
+			}
+
+			#sheet_top_title > h3{
+				color: #000000;
+			}
+
+
+
+			#show_scheduler_layout > div:first-child{
+				padding: 1%;
+				margin: 1%;
+				width: 100%;
+				height: auto;
+			}
+
+			#show_scheduler_layout > div:first-child > h5{
+				margin-bottom: 2%;
+			}
+
+			#show_scheduler_layout > div:first-child > div{
+				position: relative;
+				margin: auto;
+				min-height: 1px;
+				padding-right: 15px;
+				padding-left: 15px;
+				width: 90%;
+			}
+
+			#myModalLabel{
+				color: #000000;
+			}
+			#modal-body{
+				color: #000000;
+				font-size: 1.3em;
+			}
+		</style>
+  </head>
+
+  <body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+      <header class="header black-bg">
+               <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+              </div>
+            <!--logo start-->
+            <a href="index.html" class="logo"><b>Itrip</b></a>
+            <!--logo end-->
+            <div class="top-menu">
+              <ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="login.html">Logout</a></li>&emsp;
+              </ul>
+            </div>
+            <div class="nav notify-row" id="top_menu">
+                <ul class="nav top-menu">
+
+                  <a href="#"><i class="fa fa-file-image-o fa-lg"></i></a>
+                  &emsp;
+                  <a href="#"><i class="fa fa-search fa-lg"></i></a>  
+                  &emsp;
+                  <a href="#"><i class="fa fa-info-circle fa-lg"></i></a>
+                  &emsp;
+            </div>
+        </header>
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+                  <a href="#"><i class="fa fa-asterisk" aria-hidden="true"></i></a>
+                  </br>
+                  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+                  <h5 class="centered">스타트립</h5>
+                    
+
+                  <li class="sub-menu">
+                      <a href="javascript:;" >
+                      <span>여행1</span>
+                      </a>
+                      <ul class="sub">
+                          <li><a  href="#">여행스케쥴</a></li>
+                          <li><a  href="gallery.html">앨범</a></li>
+                          <li><a  href="#">가계부</a></li>
+                      </ul>
+                  </li>
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- **********************************************************************************************************************************************************
+MAIN CONTENT
+*********************************************************************************************************************************************************** -->
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper" style="padding:3em">
+		 <!-- page start-->
+		 <div id="sheet_top_layout">
+			<div id="sheet_top_title">
+				<h3 ><i class="fa fa-angle-right"></i> 여행 계획표</h3>		
+			</div>
+			<div id="modify_btn">
+				<div>
+					<form>
+						<button type="summit" class="btn btn-success" value="완료하기" onclick="modify_event();"> 수정하기 </button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+
+    <div id="show_scheduler_layout" class="showback">
+		<div>
+			<h5>* 달력 다이어리</h5>
+			<div>
+				<div id="calendar" class="has-toolbar"></div>
+			</div>
+		</div>
+
+
+		<div id="modal_layout">
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel"></h4>
+						</div>
+						<div id="modal-body" class="modal-body">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+						</div>
+					</div>
+				</div>      
+		</div>
+	</div>
+	
+	<div id="showup_path_layout" class="showback">
+			<div>
+				<h5>* 경로 보기</h5>
+				<div id="map_canvas_for_path_layout">
+					<div id="map_canvas_for_path"></div>
+				</div>
+			</div>
+	</div>
+
+    <!-- page end-->
+	</section> <!-- /wrapper -->
+</section><!-- /MAIN CONTENT -->
+
+
+      <!--main content end-->
+      <!--footer start-->
+      <footer >
+      </footer>
+      <!--footer end-->
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/fullcalendar/fullcalendar.min.js"></script>    
+    <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="assets/js/jquery.scrollTo.min.js"></script>
+    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+
+    <!--common script for all pages-->
+    <script src="assets/js/common-scripts.js"></script>
+
+
+	<!-- 맵연동하는 코드 -->
+	<script type="text/javascript" async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdoXf1CWYqNVCx3ylN-LEIiZULuWscoig&sensor=false&libraries=places&callback=initialize">
+    </script>
+
+
+
+	<!--맵 관련 사항 -->
+	<script type="text/javascript">
+
+		var iw;
+		var mapforpath, placesforpath;
+		var markers = [];	//마커 정보 모음
+		var flightPath;
+		var autocomplete;
+		var NodePlace;
+		var title;
+		var thema01;
+		var thema02;
+		var nodeCount = 0;
+		var nodeInfoArray = new Array();
+
+		function modify_event(){
+			if(confirm("수정하시겠습니까?")){
+
+			}else{
+
+			}
+		}
+		
+
+		function initialize() {
+			let myLatlng = new google.maps.LatLng(37.566535, 126.97796919999996);	//초기 맵의 포커스를 위해 초기 설정
+			
+			let myOptions = {
+				zoom: 14,
+				center: myLatlng,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+			//초기 맵 설정
+
+			mapforpath = new google.maps.Map(document.getElementById('map_canvas_for_path'), myOptions);
+
+			placesforpath = new google.maps.places.PlacesService(mapforpath);
+		}
+
+		//맵 마커 클리어
+		function clearMarkers() {
+			for (var i = 0; i < markers.length; i++) {
+				if (markers[i]) {
+					markers[i].setMap(null);
+					markers[i] == null;
+				}
+			}
+		}
+
+		//맵 마커 표시
+		function dropMarker(i) {
+			return function () {
+				markers[i].setMap(map);
+			}
+		}
+
+		function getDetails(result, i) {
+			return function () {
+				//이 부분은 마커 클릭 시에 세부정보로 넘어가는 기능을 하는부분
+				//이부분을 추후 장소 div를 추가하는 부분으로 한다.
+
+				places.getDetails({
+					reference: result.reference
+				}, showInfoWindow(i));
+			}
+		}
+
+		function showInfoWindow(i) {
+			//마커를 띄우는 부분
+			return function (place, status) {
+				if (iw) {
+					iw.close();
+					iw = null;
+				}
+				if (status == google.maps.places.PlacesServiceStatus.OK) {
+					iw = new google.maps.InfoWindow({
+						content: getIWContent(place),
+					});
+
+					iw.open(map, markers[i]);
+				}
+			}
+		}
+
+		// 위도 경도 거리 계산 공식, 소수점 2자리 반올림
+		function calculateDistance(lat1, lon1, lat2, lon2) {
+			var R = 6371; // km
+			var dLat = (lat2-lat1).toRad();
+			var dLon = (lon2-lon1).toRad(); 
+			var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+					Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+					Math.sin(dLon/2) * Math.sin(dLon/2); 
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+			var d = R * c;
+			return d.toFixed(2);
+		}
+		Number.prototype.toRad = function() {
+			return this * Math.PI / 180;
+		}
+
+		$(document).on("click",".form_datetime",function(){ 
+			$(this).datetimepicker({
+				weekStart: 1,
+				todayBtn:  1,
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				forceParse: 0,
+				showMeridian: 1
+			});
+		});
+
+		function location_map_marker(){
+			let flightPlanCoordinates =[];
+
+			for(var j = 0; j < nodeInfoArray.length; j++){
+				if(nodeInfoArray[j].tag ==1){
+					//작성완성시
+					//first.lat(), first.lng()
+					flightPlanCoordinates.push({
+						lat : nodeInfoArray[j].latlng.lat(),
+						lng : nodeInfoArray[j].latlng.lng(),
+						position: nodeInfoArray[j].latlng,
+						icons : [{ //방향을 알기 위한 화살표 표시
+								icon : {path : google.maps.SymbolPath.BACKWARD_CLOSED_ARROW}
+								, offset  : '100%'
+								, repeat : '100px'
+									}],
+						title: nodeInfoArray[j].location,
+						map: nodeInfoArray[j].map
+					});
+
+				}
+			}
+
+			if(flightPlanCoordinates.length >= 2){
+				flightPath.setMap(null);
+			}
+
+
+			flightPath = new google.maps.Polyline({
+				path: flightPlanCoordinates,
+				geodesic: true,
+				strokeColor: '#FF0000',
+				strokeOpacity: 1.0,
+				strokeWeight: 8
+			});
+			
+
+			//markers_path.setMap(mapforpath);
+			flightPath.setMap(mapforpath);
+			mapforpath.setCenter(flightPlanCoordinates[flightPlanCoordinates.length-1].position);
+			
+		}
+
+
+		var Script = function () {
+			
+			
+				/* initialize the external events
+				 -----------------------------------------------------------------*/
+			
+				$('#external-events div.external-event').each(function() {
+			
+					// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+					// it doesn't need to have a start or end
+					var eventObject = {
+						title: $.trim($(this).text()) // use the element's text as the event title
+					};
+			
+					// store the Event Object in the DOM element so we can get to it later
+					$(this).data('eventObject', eventObject);
+			
+					// make the event draggable using jQuery UI
+					
+			
+				});
+			
+			
+				/* initialize the calendar
+				 -----------------------------------------------------------------*/
+				 
+				var date = new Date();
+				var d = date.getDate();
+				var m = date.getMonth();
+				var y = date.getFullYear();
+			
+				$('#calendar').fullCalendar({
+					header: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'month,basicWeek,basicDay'
+					},
+					editable: false,
+					droppable: false, // this allows things to be dropped onto the calendar !!!
+					drop: function(date, allDay) { // this function is called when something is dropped
+			
+						// retrieve the dropped element's stored Event Object
+						var originalEventObject = $(this).data('eventObject');
+			
+						// we need to copy it, so that multiple events don't have a reference to the same object
+						var copiedEventObject = $.extend({}, originalEventObject);
+			
+						// assign it the date that was reported
+						copiedEventObject.start = date;
+						copiedEventObject.allDay = allDay;
+			
+						// render the event on the calendar
+			
+					},
+					events: [
+						{
+							title: 'All Day Event',
+							start: new Date(y, m, 1)
+						},
+						{
+							title: 'Long Event',
+							start: new Date(y, m, d-5),
+							end: new Date(y, m, d-2)
+						},
+						{
+							id: 999,
+							title: 'Repeating Event',
+							start: new Date(y, m, d-3, 16, 0),
+							allDay: false
+						},
+						{
+							id: 999,
+							title: 'Repeating Event',
+							start: new Date(y, m, d+4, 16, 0),
+							allDay: false
+						},
+						{
+							title: 'Meeting',
+							start: new Date(y, m, d, 10, 30),
+							allDay: false
+						},
+						{
+							title: 'Lunch',
+							start: new Date(y, m, d, 12, 0),
+							end: new Date(y, m, d, 14, 0),
+							allDay: false
+						},
+						{
+							title: 'Birthday Party',
+							start: new Date(y, m, d+1, 19, 0),
+							end: new Date(y, m, d+1, 22, 30),
+							allDay: false
+						},
+						{
+							title: 'Click for Google',
+							start: new Date(y, m, 28),
+							end: new Date(y, m, 29),
+							url : 'http://www.naver.com'
+						}
+					],
+					eventClick: function(calEvent, jsEvent, view) {
+						//$(this).css('border-color', 'red');
+						//이건 봤다는 것을 표시하기 위해 나타나는 포커스 이건 봤다는게 계속 표시되니까 없에야됨
+						alert('Event: ' + calEvent.title);
+						//alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+						//달력 위치
+						//alert('View: ' + view.name);
+						//보는 방식 달, 월, 일 등
+						// change the border color just for fun
+
+						document.getElementById('myModalLabel').innerHTML="여행 장소 정보";
+						document.getElementById('modal-body').innerHTML= "<p>" +  "장소명 : " + "" +"</p>"+
+																		"<p>" + "도착 시간 : " + ""+ "<br>"+
+																				"출발 시간 : " + "" +  "<br>"+
+																				"메모 내용 : " + "<br>" + "" + "</p>";
+
+						$("#myModal").modal();
+					}
+				});
+			
+			
+			}();
+	</script>
+
+  </body>
+</html>
